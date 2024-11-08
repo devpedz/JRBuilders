@@ -367,12 +367,17 @@ function clearPrint() {
     fingerprint_verify = '';
     count = 0;
 }
+var pleaseWait = false;
 function storeSample(sample) {
+    if (pleaseWait) {
+        return;
+    }
+    $.blockUI();
+    pleaseWait = true;
     const title = "J.R Builders - Information Management System";
     $('title').html(title);
     $('#employee_error_modal').modal('hide');
     $('#employee_modal').modal('hide');
-
     const api = new APIRequest();
     let samples = JSON.parse(sample.samples);
     let sampleData = samples[0].Data;
@@ -385,18 +390,10 @@ function storeSample(sample) {
     setTimeout(() => {
         api.post('/src/core/verify.php', payload)
             .then(data => {
+                $.unblockUI();
+                pleaseWait = false;
                 $('#employee_error_modal').modal('hide');
                 if (data.status == 'success') {
-                    const _date = new Date().toLocaleString('en-US', {
-                        weekday: 'long',
-                        month: 'long',
-                        day: 'numeric',
-                    });
-                    const _time = new Date().toLocaleString('en-US', {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true
-                    });
                     api.post('/setAttendance', { id: data.id })
                         .then(dd => {
                             $('#attendance_date').html(dd.date);
