@@ -1,0 +1,75 @@
+version: "3.5"
+services:
+  www:
+    build: .
+    ports: 
+      - "8000:80"
+    volumes:
+      - ./www:/var/www/html/
+    links:
+      - db
+    networks:
+      - default
+
+  db:
+    image: mysql:8.0
+    ports: 
+      - "3308:3308"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: myDb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test 
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - ./conf:/etc/mysql/conf.d
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links: 
+      - db:db
+    ports:
+      - "8001:80"
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test 
+    networks:
+      - default
+
+  fingerprint_engine:
+    image: dahirmuhammaddahir/grpc_fingerprint_engine
+    ports:
+      - "4134:4134"
+    restart: unless-stopped
+    container_name: fingerprint_engine
+    networks:
+      - fingerprint_engine_net
+
+  fingerprint_client:
+    image: r3y3s_fingerprint
+    build: .
+    ports:
+      - "5555:80"
+    restart: unless-stopped
+    container_name: r3y3s_fingerprint_client
+    depends_on:
+      - fingerprint_engine
+    networks:
+      - fingerprint_engine_net
+      - fingerprint_client_net
+
+networks:
+  default:
+    driver: bridge  # Explicitly set the driver for the default network (optional, as `bridge` is the default)
+  fingerprint_engine_net:
+    driver: bridge
+  fingerprint_client_net:
+    driver: bridge
+
+volumes:
+  persistent:
