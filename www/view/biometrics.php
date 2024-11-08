@@ -402,6 +402,7 @@
     <script src="/src/js/fingerprint.sdk.min.js"></script>
     <script src="/src/js/biometrics.js?<?= uniqid() ?>"></script>
     <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/jquery.blockUI.js"></script>
     <script>
         var employee_modal_timeout;
         var employee_error_modal_timeout;
