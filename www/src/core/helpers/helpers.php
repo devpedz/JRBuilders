@@ -22,7 +22,7 @@ WpOrg\Requests\Autoload::register();
  */
 function enroll_fingerprint($pre_registered_fmd_array)
 {
-    $host = 'https://jrbuilders-fingerprint.liaq1x.easypanel.host';
+    $host = 'https://fingerprint.jrbuilders.website';
     $enrollment_url = "$host/coreComponents/enroll.php";
 
     $data = ["data" => json_encode($pre_registered_fmd_array)];
@@ -47,7 +47,7 @@ function enroll_fingerprint($pre_registered_fmd_array)
  */
 function verify_fingerprint($pre_registered_fmd_string, $enrolled_fingers_array)
 {
-    $host = 'https://jrbuilders-fingerprint.liaq1x.easypanel.host';
+    $host = 'https://fingerprint.jrbuilders.website';
     $verify_url = "$host/coreComponents/verify.php";
 
     $data = [
@@ -88,7 +88,7 @@ function verify_fingerprint($pre_registered_fmd_string, $enrolled_fingers_array)
  */
 function is_duplicate_fingerprint($pre_registered_fmd_string, $enrolled_hands_array)
 {
-    $host = 'https://jrbuilders-fingerprint.liaq1x.easypanel.host';
+    $host = 'https://fingerprint.jrbuilders.website';
     $is_duplicate_url = "$host/coreComponents/is_duplicate.php";
 
     $data = [
