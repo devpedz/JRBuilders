@@ -2,9 +2,7 @@
 header('Content-Type: application/json');
 
 // Get current time
-$use24HourClock = isset($_GET['use24HourClock']) ? (bool)$_GET['use24HourClock'] : true;
-$date = new DateTime();
-$hours = $use24HourClock ? $date->format('H') : $date->format('g');
+$hours = $date->format('H');
 $minutes = $date->format('i');
 $seconds = $date->format('s');
 
