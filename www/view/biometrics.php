@@ -460,7 +460,7 @@
                         data.hours,
                         data.minutes,
                         data.seconds
-                    ].reduce(padClock, '');
+                    ];
                 },
                 "json"
             );
