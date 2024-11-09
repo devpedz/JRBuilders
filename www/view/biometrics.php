@@ -453,16 +453,38 @@
         function padClock(p, n) {
             return p + ('0' + n).slice(-2);
         }
-
+getClock1
         function getClock() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/servertime.php', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const serverTime = new Date(response.time); // Convert ISO string to Date object
+
+                    // Get hours, minutes, seconds
+                    let hours = use24HourClock ? serverTime.getHours() : serverTime.getHours() % 12 || 12;
+                    let minutes = serverTime.getMinutes();
+                    let seconds = serverTime.getSeconds();
+
+                    // Format the time
+                    const formattedTime = [hours, minutes, seconds]
+                        .reduce(padClock, ''); // Join the time in hhmmss format
+
+                    // Update the clock on the page
+                    document.getElementById('clock').textContent = formattedTime;
+                }
+            };
+            xhr.send();
+        }
+
+        function getClock1() {
             d = new Date();
             return [
                 use24HourClock ? d.getHours() : d.getHours() % 12 || 12,
                 d.getMinutes(),
                 d.getSeconds()
-            ].
-
-            // reduce(padClock, '');
+            ].reduce(padClock, '');
         }
 
         function getClass(n, i2) {
