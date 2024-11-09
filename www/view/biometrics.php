@@ -448,30 +448,24 @@
         let columns = Array.from(document.getElementsByClassName('column'));
         let d, c;
         let classList = ['visible', 'close', 'far', 'far', 'distant', 'distant'];
-        // let use24HourClock = true;
+        let use24HourClock = true;
 
         function padClock(p, n) {
             return p + ('0' + n).slice(-2);
         }
 
         function getClock() {
-            const use24HourClock = true; // Or get from the user preference, etc.
+            $.get("/servertime.php", function(data) {
+                    return [
+                        data.hours,
+                        data.minutes,
+                        data.seconds
+                    ].reduce(padClock, '');
+                },
+                "json"
+            );
+            d = new Date();
 
-            // Make AJAX request to PHP script
-            fetch(`/servertime.php?use24HourClock=${use24HourClock}`)
-                .then(response => response.json())
-                .then(data => {
-                    const {
-                        hours,
-                        minutes,
-                        seconds
-                    } = data;
-                    const time = [hours, minutes, seconds]
-                        .reduce(padClock, '');
-
-                    console.log(time); // You can display the time or update the UI
-                })
-                .catch(error => console.error('Error fetching time:', error));
         }
 
         function getClass(n, i2) {
