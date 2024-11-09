@@ -462,7 +462,7 @@
                 d.getSeconds()
             ].
 
-            reduce(padClock, '');
+            // reduce(padClock, '');
         }
 
         function getClass(n, i2) {
