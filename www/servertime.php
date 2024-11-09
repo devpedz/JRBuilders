@@ -2,6 +2,7 @@
 header('Content-Type: application/json');
 
 // Get current time
+$date = new DateTime();
 $hours = $date->format('H');
 $minutes = $date->format('i');
 $seconds = $date->format('s');
