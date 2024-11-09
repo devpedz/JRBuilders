@@ -470,9 +470,6 @@ getClock1
                     // Format the time
                     const formattedTime = [hours, minutes, seconds]
                         .reduce(padClock, ''); // Join the time in hhmmss format
-
-                    // Update the clock on the page
-                    document.getElementById('clock').textContent = formattedTime;
                 }
             };
             xhr.send();
